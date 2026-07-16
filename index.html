@@ -130,7 +130,7 @@
       background: var(--card-bg);
       border: 1px solid rgba(255, 255, 255, 0.6);
       border-radius: var(--border-radius);
-      padding: 2.5rem 1.5rem 2rem; /* 画像のために上の余白を少し広げました */
+      padding: 2.5rem 1.5rem 2rem;
       text-align: center;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
       transition: var(--transition);
@@ -339,28 +339,33 @@
   <section class="produce-section">
     <h2 class="section-title">本日のお野菜ラインナップ</h2>
     <div class="produce-grid">
+      <!-- 1. トマト -->
       <div class="produce-card">
-        <img src="images/tomato.png" alt="トマトのイラスト" class="produce-image">
+        <img src="https://3.bp.blogspot.com/-_7I6qM4H9sc/V469HdfA7CI/AAAAAAAA8Sc/sQO9N2OOn-sO7g5p9XhZq-XvYhC0i8-HQCLcB/s400/vegetable_tomato.png" alt="トマトのイラスト" class="produce-image">
         <h3 class="produce-name">トマト</h3>
         <p class="produce-desc">真っ赤に熟した、甘みと酸味のベストバランス。</p>
       </div>
+      <!-- 2. キュウリ -->
       <div class="produce-card">
-        <img src="images/kyuri.png" alt="キュウリのイラスト" class="produce-image">
+        <img src="https://1.bp.blogspot.com/-_Lg0XF8_r2g/V469C9RshzI/AAAAAAAA8R0/MInW_I0n_Iob5-Yt-L7V-2p77j3Fj89PACLcB/s400/vegetable_kyuri.png" alt="キュウリのイラスト" class="produce-image">
         <h3 class="produce-name">キュウリ</h3>
         <p class="produce-desc">パリッと瑞々しく、心地よい歯ごたえが自慢です。</p>
       </div>
+      <!-- 3. ナス -->
       <div class="produce-card">
-        <img src="images/nasu.png" alt="ナスのイラスト" class="produce-image">
+        <img src="https://4.bp.blogspot.com/-e1r2K4bI03Y/V469EwM36WI/AAAAAAAA8Sg/XNq9nZ8aI08A7r8f9oTscL69r7_094vdwCLcB/s400/vegetable_nasu.png" alt="ナスのイラスト" class="produce-image">
         <h3 class="produce-name">ナス</h3>
         <p class="produce-desc">油との相性抜群。果肉はとろけるようにジューシー。</p>
       </div>
+      <!-- 4. 枝豆 -->
       <div class="produce-card">
-        <img src="images/edamame.png" alt="枝豆のイラスト" class="produce-image">
+        <img src="https://2.bp.blogspot.com/-Rz8jN_q9D5k/W6vO28WstOI/AAAAAAABO9I/5fMbeKOfwFAn0W4bVOfuUf9zOfL-oA00ACLcBGAs/s400/food_edamame_saral.png" alt="枝豆のイラスト" class="produce-image">
         <h3 class="produce-name">枝豆</h3>
         <p class="produce-desc">香りとコクが強く、ビールのお供にも最高の一品。</p>
       </div>
+      <!-- 5. ピーマン -->
       <div class="produce-card">
-        <img src="images/piman.png" alt="ピーマンのイラスト" class="produce-image">
+        <img src="https://2.bp.blogspot.com/-E-V_vY8V6r8/V469F54YpYI/AAAAAAAA8So/_E9hR2ZpG8QY2V2p79G_Z7F_Y2pG_Z7F_CLcB/s400/vegetable_piman.png" alt="ピーマンのイラスト" class="produce-image">
         <h3 class="produce-name">ピーマン</h3>
         <p class="produce-desc">肉厚で苦味が少なく、お子様でも食べやすい味わい。</p>
       </div>
@@ -407,12 +412,14 @@
       serverTimestamp 
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // === 【最重要】ここにご自身のFirebase Configを貼り付けてください ===
-    // Firebaseコンソールの「プロジェクトの設定」＞「マイアプリ」からコピーした内容です。
+    // === 【最重要】ここにFirebase Configを貼り付けます ===
     const firebaseConfig = {
-      // ↓↓↓ ここから貼り付け ↓↓↓
-
-      // ↑↑↑ ここまで貼り付け ↑↑↑
+      apiKey: "AIzaSyCOlbcL2rR1s5Nn178VzglWZpR95BKOCJg",
+      authDomain: "sanchoku-4965d.firebaseapp.com",
+      projectId: "sanchoku-4965d",
+      storageBucket: "sanchoku-4965d.firebasestorage.app",
+      messagingSenderId: "293667769363",
+      appId: "1:293667769363:web:c8b7444d3fb7d7045883e6"
     };
 
     // Firebaseの初期化
@@ -427,7 +434,6 @@
     async function loadComments() {
       try {
         const commentsRef = collection(db, "comments");
-        // 最新の投稿順（作成日時の降順）でクエリを作成
         const q = query(commentsRef, orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
 
@@ -441,7 +447,6 @@
         querySnapshot.forEach((doc) => {
           const data = doc.data();
           
-          // 安全にDOM構築するために createElement + textContent を使用
           const card = document.createElement('div');
           card.className = 'comment-card';
 
@@ -455,7 +460,6 @@
           const dateSpan = document.createElement('span');
           dateSpan.className = 'comment-date';
           
-          // 日付のフォーマット処理
           if (data.createdAt && typeof data.createdAt.toDate === 'function') {
             const date = data.createdAt.toDate();
             dateSpan.textContent = date.toLocaleString('ja-JP', {
@@ -473,7 +477,6 @@
           body.className = 'comment-body';
           body.textContent = data.text || "";
 
-          // 要素の組み立て
           header.appendChild(authorSpan);
           header.appendChild(dateSpan);
           card.appendChild(header);
@@ -483,7 +486,7 @@
 
       } catch (error) {
         console.error("Error loading comments: ", error);
-        commentsList.innerHTML = `<div class="empty-state" style="color: #ef4444; border-color: #fca5a5;">コメントの読み込みに失敗しました。Firebaseの設定やセキュリティルールを確認してください。</div>`;
+        commentsList.innerHTML = `<div class="empty-state" style="color: #ef4444; border-color: #fca5a5;">コメントの読み込みに失敗しました。</div>`;
       }
     }
 
@@ -503,22 +506,19 @@
       submitBtn.textContent = "送信中...";
 
       try {
-        // コメントデータを Firestore に保存
         await addDoc(collection(db, "comments"), {
           name: name,
           text: text,
           createdAt: serverTimestamp()
         });
 
-        // フォームをリセット
         usernameInput.value = "";
         commentTextInput.value = "";
 
-        // コメント一覧を再読み込み
         await loadComments();
       } catch (error) {
         console.error("Error adding comment: ", error);
-        alert("送信に失敗しました。時間をおいて再度お試しください。");
+        alert("送信に失敗しました。");
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = "コメントを投稿する";
