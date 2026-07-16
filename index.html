@@ -130,10 +130,13 @@
       background: var(--card-bg);
       border: 1px solid rgba(255, 255, 255, 0.6);
       border-radius: var(--border-radius);
-      padding: 2rem 1.5rem;
+      padding: 2.5rem 1.5rem 2rem; /* 画像のために上の余白を少し広げました */
       text-align: center;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
       transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .produce-card:hover {
@@ -142,11 +145,14 @@
       border-color: var(--primary-light);
     }
 
-    .produce-emoji {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      display: inline-block;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    /* --- 新しいお野菜画像のスタイル（イラスト用） --- */
+    .produce-image {
+      width: 110px;         /* イラストのサイズ */
+      height: 110px;
+      object-fit: contain;  /* イラスト全体を枠内に収める */
+      margin-bottom: 1.2rem;
+      /* イラストを少し浮かせる影 */
+      filter: drop-shadow(0 6px 8px rgba(0,0,0,0.12));
     }
 
     .produce-name {
@@ -333,28 +339,28 @@
   <section class="produce-section">
     <h2 class="section-title">本日のお野菜ラインナップ</h2>
     <div class="produce-grid">
-     <div class="produce-card">
-  <img src="images/tomato.jpg" alt="トマト" class="produce-image">
-  <h3 class="produce-name">トマト</h3>
-  <p class="produce-desc">真っ赤に熟した、甘みと酸味のベストバランス。</p>
-</div>
       <div class="produce-card">
-        <span class="images/kyuri.jpg" alt="キュウリ" class="produce-image">
+        <img src="images/tomato.png" alt="トマトのイラスト" class="produce-image">
+        <h3 class="produce-name">トマト</h3>
+        <p class="produce-desc">真っ赤に熟した、甘みと酸味のベストバランス。</p>
+      </div>
+      <div class="produce-card">
+        <img src="images/kyuri.png" alt="キュウリのイラスト" class="produce-image">
         <h3 class="produce-name">キュウリ</h3>
         <p class="produce-desc">パリッと瑞々しく、心地よい歯ごたえが自慢です。</p>
       </div>
       <div class="produce-card">
-        <span class="images/nasu.jpg" alt="ナス" class="produce-image">
+        <img src="images/nasu.png" alt="ナスのイラスト" class="produce-image">
         <h3 class="produce-name">ナス</h3>
         <p class="produce-desc">油との相性抜群。果肉はとろけるようにジューシー。</p>
       </div>
       <div class="produce-card">
-        <span class="images/edamame.jpg" alt="エダマメ" class="produce-image">
+        <img src="images/edamame.png" alt="枝豆のイラスト" class="produce-image">
         <h3 class="produce-name">枝豆</h3>
         <p class="produce-desc">香りとコクが強く、ビールのお供にも最高の一品。</p>
       </div>
       <div class="produce-card">
-        <span class="images/pi-man.jpg" alt="ピーマン" class="produce-image">
+        <img src="images/piman.png" alt="ピーマンのイラスト" class="produce-image">
         <h3 class="produce-name">ピーマン</h3>
         <p class="produce-desc">肉厚で苦味が少なく、お子様でも食べやすい味わい。</p>
       </div>
@@ -401,14 +407,12 @@
       serverTimestamp 
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // --- ここにご自身のFirebase Configを貼り付けてください ---
+    // === 【最重要】ここにご自身のFirebase Configを貼り付けてください ===
+    // Firebaseコンソールの「プロジェクトの設定」＞「マイアプリ」からコピーした内容です。
     const firebaseConfig = {
-     apiKey: "AIzaSyCOlbcL2rR1s5Nn178VzglWZpR95BKOCJg",
-     authDomain: "sanchoku-4965d.firebaseapp.com",
-     projectId: "sanchoku-4965d",
-     storageBucket: "sanchoku-4965d.firebasestorage.app",
-     messagingSenderId: "293667769363",
-     appId: "1:293667769363:web:c8b7444d3fb7d7045883e6"
+      // ↓↓↓ ここから貼り付け ↓↓↓
+
+      // ↑↑↑ ここまで貼り付け ↑↑↑
     };
 
     // Firebaseの初期化
@@ -479,7 +483,7 @@
 
       } catch (error) {
         console.error("Error loading comments: ", error);
-        commentsList.innerHTML = `<div class="empty-state" style="color: #ef4444; border-color: #fca5a5;">コメントの読み込みに失敗しました。Configの設定などを確認してください。</div>`;
+        commentsList.innerHTML = `<div class="empty-state" style="color: #ef4444; border-color: #fca5a5;">コメントの読み込みに失敗しました。Firebaseの設定やセキュリティルールを確認してください。</div>`;
       }
     }
 
