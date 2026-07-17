@@ -10,12 +10,15 @@
       --primary: #1e40af;       /* 深い青 */
       --primary-light: #3b82f6; /* 明るい青 */
       --accent: #10b981;        /* 瑞々しいグリーン */
+      --accent-hover: #059669;
+      --star-color: #fbbf24;    /* 星のゴールド */
       --bg-gradient: linear-gradient(135deg, #f0fdf4 0%, #eff6ff 100%);
       --text-main: #1e293b;
       --text-muted: #64748b;
-      --card-bg: rgba(255, 255, 255, 0.9);
-      --border-radius: 16px;
-      --transition: all 0.3s ease;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --border-radius: 20px;
+      --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --transition-smooth: all 0.3s ease;
     }
 
     * {
@@ -30,16 +33,17 @@
       background-attachment: fixed;
       color: var(--text-main);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     /* --- Header --- */
     header {
       background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
       z-index: 100;
-      border-bottom: 1px solid rgba(30, 64, 175, 0.1);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.08);
     }
 
     .header-container {
@@ -59,128 +63,167 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      transition: var(--transition-smooth);
+    }
+    .logo:hover {
+      transform: scale(1.03);
     }
 
     /* --- Hero Section --- */
     .hero {
       max-width: 1100px;
-      margin: 3rem auto;
+      margin: 4rem auto 3rem;
       padding: 0 2rem;
       text-align: center;
     }
 
     .hero-badge {
       display: inline-block;
-      background: rgba(30, 64, 175, 0.1);
-      color: var(--primary);
-      padding: 0.4rem 1rem;
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--accent-hover);
+      padding: 0.5rem 1.2rem;
       border-radius: 50px;
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 1.5rem;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
 
     .hero h1 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       font-weight: 800;
       color: var(--primary);
       line-height: 1.3;
       margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
     }
 
     .hero p {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       color: var(--text-muted);
-      max-width: 600px;
+      max-width: 640px;
       margin: 0 auto;
+      line-height: 1.8;
     }
 
     /* --- Produce Grid --- */
     .produce-section {
       max-width: 1100px;
-      margin: 4rem auto;
+      margin: 5rem auto;
       padding: 0 2rem;
     }
 
     .section-title {
-      font-size: 1.8rem;
+      font-size: 2rem;
       color: var(--primary);
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
       text-align: center;
       position: relative;
+      font-weight: 800;
     }
 
     .section-title::after {
       content: '';
       display: block;
-      width: 50px;
-      height: 4px;
+      width: 60px;
+      height: 5px;
       background: var(--accent);
-      margin: 0.75rem auto 0;
-      border-radius: 2px;
+      margin: 0.8rem auto 0;
+      border-radius: 10px;
     }
 
     .produce-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
     }
 
     .produce-card {
       background: var(--card-bg);
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.7);
       border-radius: var(--border-radius);
       padding: 2.5rem 1.5rem 2rem;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-      transition: var(--transition);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+      transition: var(--transition-bounce);
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
       position: relative;
+      overflow: hidden;
+    }
+
+    /* ホバー時のキラッとする輝きエフェクト */
+    .produce-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 100%);
+      transform: skewX(-25deg);
+      transition: none;
+    }
+
+    .produce-card:hover::before {
+      animation: shine 0.85s;
+    }
+
+    @keyframes shine {
+      100% { left: 125%; }
     }
 
     .produce-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(30, 64, 175, 0.1);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(30, 64, 175, 0.12);
       border-color: var(--primary-light);
     }
 
     .click-badge {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 0.7rem;
-      background: rgba(16, 185, 129, 0.1);
-      color: var(--accent);
-      padding: 2px 8px;
+      top: 15px;
+      right: 15px;
+      font-size: 0.75rem;
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--primary-light);
+      padding: 3px 10px;
       border-radius: 20px;
-      font-weight: 600;
-      opacity: 0.8;
+      font-weight: 700;
+      transition: var(--transition-smooth);
+    }
+
+    .produce-card:hover .click-badge {
+      background: var(--primary-light);
+      color: white;
     }
 
     .produce-image {
-      width: 110px;
-      height: 110px;
+      width: 120px;
+      height: 120px;
       object-fit: contain;
-      margin-bottom: 1.2rem;
-      filter: drop-shadow(0 6px 8px rgba(0,0,0,0.12));
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1));
+      transition: var(--transition-bounce);
+    }
+
+    .produce-card:hover .produce-image {
+      transform: scale(1.1) rotate(3deg);
     }
 
     .produce-name {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 0.3rem;
-    }
-
-    /* お値段のスタイル */
-    .produce-price {
-      font-size: 1.15rem;
+      font-size: 1.35rem;
       font-weight: 800;
-      color: #e11d48; /* 美味しそうな赤 */
-      margin-bottom: 0.8rem;
+      color: var(--text-main);
+      margin-bottom: 0.4rem;
     }
 
     .produce-desc {
@@ -198,10 +241,10 @@
       width: 100%;
       height: 100%;
       background-color: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(8px);
       align-items: center;
       justify-content: center;
-      padding: 1rem;
+      padding: 1.5rem;
       opacity: 0;
       transition: opacity 0.3s ease;
     }
@@ -213,21 +256,21 @@
 
     .modal-content {
       background: white;
-      border-radius: 24px;
+      border-radius: 28px;
       width: 100%;
-      max-width: 500px;
-      padding: 2.5rem 2rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      max-width: 520px;
+      padding: 3rem 2.5rem;
+      box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.3);
       position: relative;
-      transform: scale(0.9);
-      transition: transform 0.3s ease;
+      transform: scale(0.85) translateY(20px);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
       text-align: center;
       max-height: 90vh;
       overflow-y: auto;
     }
 
     .modal.show .modal-content {
-      transform: scale(1);
+      transform: scale(1) translateY(0);
     }
 
     .close-btn {
@@ -240,266 +283,141 @@
       cursor: pointer;
       border: none;
       background: none;
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
       background: #f1f5f9;
-      transition: var(--transition);
+      transition: var(--transition-smooth);
+    }
+
+    .close-btn:hover {
+      background: #e2e8f0;
+      transform: rotate(90deg);
     }
 
     .modal-image {
-      width: 130px;
-      height: 130px;
+      width: 140px;
+      height: 140px;
       object-fit: contain;
-      margin: 1rem auto;
-      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
+      margin: 0.5rem auto 1.5rem;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.12));
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
     }
 
     .modal-title {
-      font-size: 1.75rem;
+      font-size: 2rem;
       font-weight: 800;
       color: var(--primary);
-    }
-
-    .modal-price {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: #e11d48;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     .modal-section {
       text-align: left;
       background: #f8fafc;
-      padding: 1rem 1.2rem;
-      border-radius: 12px;
-      margin-top: 0.8rem;
-      border-left: 4px solid var(--accent);
+      padding: 1.2rem 1.5rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+      border-left: 5px solid var(--accent);
+      transition: var(--transition-smooth);
+    }
+
+    .modal-section:hover {
+      background: #f1f5f9;
+      transform: translateX(3px);
     }
 
     .modal-section-title {
-      font-weight: 700;
-      font-size: 0.9rem;
+      font-weight: 800;
+      font-size: 0.95rem;
       color: var(--text-main);
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
     .modal-section-text {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    /* 購入エリアのスタイル */
-    .purchase-area {
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px dashed #e2e8f0;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .quantity-selector {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    .quantity-selector label {
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .quantity-select {
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      border: 1.5px solid #cbd5e1;
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
-    .btn-add-cart {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-      transition: var(--transition);
-    }
-
-    .btn-add-cart:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-    }
-
-    /* --- ✨ 買い物かご（カート）フローティングボタン --- */
-    .cart-badge-container {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      z-index: 900;
-    }
-
-    .btn-cart-toggle {
-      background: var(--primary);
-      color: white;
-      border: none;
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      font-size: 1.8rem;
-      cursor: pointer;
-      box-shadow: 0 10px 25px rgba(30, 64, 175, 0.3);
-      position: relative;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .btn-cart-toggle:hover {
-      transform: scale(1.1);
-      background: var(--primary-light);
-    }
-
-    .cart-count {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: #e11d48;
-      color: white;
-      font-size: 0.8rem;
-      font-weight: 700;
-      padding: 4px 8px;
-      border-radius: 20px;
-      border: 2px solid white;
-    }
-
-    /* --- ✨ カートの中身表示モーダル --- */
-    .cart-modal {
-      display: none;
-      position: fixed;
-      z-index: 1001;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-
-    .cart-modal.show {
-      display: flex;
-    }
-
-    .cart-modal-content {
-      background: white;
-      border-radius: 24px;
-      width: 100%;
-      max-width: 450px;
-      padding: 2rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .cart-items-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      max-height: 200px;
-      overflow-y: auto;
-      text-align: left;
-    }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .cart-item-info {
-      font-weight: 700;
-    }
-
-    .cart-item-price {
-      color: #e11d48;
-      font-weight: 700;
-    }
-
-    .btn-delete-item {
-      background: none;
-      border: none;
-      color: #ef4444;
-      cursor: pointer;
       font-size: 0.9rem;
-      margin-left: 0.5rem;
-    }
-
-    .cart-total {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 1.2rem;
-      font-weight: 800;
-      border-top: 2px solid #cbd5e1;
-      padding-top: 1rem;
+      color: var(--text-muted);
+      line-height: 1.6;
     }
 
     /* --- Comments Section --- */
     .comments-section {
-      max-width: 700px;
-      margin: 5rem auto;
+      max-width: 750px;
+      margin: 6rem auto;
       padding: 0 2rem;
     }
 
     .comment-form-container {
       background: var(--card-bg);
       border-radius: var(--border-radius);
-      padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      margin-bottom: 2.5rem;
+      padding: 2.5rem;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      margin-bottom: 3rem;
     }
 
     .form-group {
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.5rem;
     }
 
     .form-group label {
       display: block;
-      font-weight: 600;
-      font-size: 0.9rem;
+      font-weight: 700;
+      font-size: 0.95rem;
       color: var(--primary);
+      margin-bottom: 0.6rem;
+    }
+
+    /* ⭐ 星評価デザイン ⭐ */
+    .star-rating {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      gap: 0.4rem;
       margin-bottom: 0.5rem;
+    }
+
+    .star-rating input {
+      display: none;
+    }
+
+    .star-rating label {
+      font-size: 1.8rem;
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      margin: 0;
+    }
+
+    /* 星をホバー、選択したときの連動カラー変更 */
+    .star-rating label:hover,
+    .star-rating label:hover ~ label,
+    .star-rating input:checked ~ label {
+      color: var(--star-color);
+      transform: scale(1.15);
     }
 
     .form-control {
       width: 100%;
-      padding: 0.8rem 1rem;
+      padding: 0.9rem 1.2rem;
       border: 1.5px solid #cbd5e1;
-      border-radius: 8px;
+      border-radius: 12px;
       font-family: inherit;
       font-size: 1rem;
       color: var(--text-main);
       background-color: #fff;
-      transition: var(--transition);
+      transition: var(--transition-smooth);
     }
 
     .form-control:focus {
@@ -510,7 +428,7 @@
 
     textarea.form-control {
       resize: vertical;
-      min-height: 100px;
+      min-height: 120px;
     }
 
     .btn-submit {
@@ -518,38 +436,46 @@
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
       color: white;
       border: none;
-      padding: 1rem;
-      font-size: 1rem;
+      padding: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
-      border-radius: 8px;
+      border-radius: 12px;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
-      transition: var(--transition);
+      box-shadow: 0 6px 15px rgba(30, 64, 175, 0.15);
+      transition: var(--transition-bounce);
     }
 
     .btn-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(30, 64, 175, 0.25);
     }
 
     /* --- Comment List --- */
     .comments-list {
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1.5rem;
     }
 
     .comment-card {
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      padding: 1.8rem;
       border-radius: var(--border-radius);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.02);
-      transition: var(--transition);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+      transition: var(--transition-bounce);
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .comment-card:hover {
       background: #ffffff;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(30, 64, 175, 0.06);
       border-color: rgba(30, 64, 175, 0.15);
     }
 
@@ -557,33 +483,48 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.75rem;
-      font-size: 0.85rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .comment-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
     }
 
     .comment-author {
-      font-weight: 700;
+      font-weight: 800;
       color: var(--primary);
+      font-size: 1rem;
     }
 
     .comment-date {
       color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* コメントに表示される星マーク */
+    .comment-stars {
+      color: var(--star-color);
+      font-size: 1.15rem;
+      letter-spacing: 2px;
     }
 
     .comment-body {
       color: var(--text-main);
-      font-size: 0.95rem;
+      font-size: 0.98rem;
       white-space: pre-wrap;
       word-break: break-all;
+      line-height: 1.7;
     }
 
     .empty-state {
       text-align: center;
       color: var(--text-muted);
-      padding: 3rem;
+      padding: 4rem;
       background: rgba(255, 255, 255, 0.4);
       border-radius: var(--border-radius);
-      border: 1px dashed rgba(30, 64, 175, 0.2);
+      border: 2px dashed rgba(30, 64, 175, 0.15);
     }
 
     /* --- Footer --- */
@@ -591,17 +532,22 @@
       background: #1e293b;
       color: #94a3b8;
       text-align: center;
-      padding: 2.5rem 2rem;
-      margin-top: 6rem;
+      padding: 3rem 2rem;
+      margin-top: 8rem;
       font-size: 0.9rem;
     }
 
     @media (max-width: 600px) {
       .hero h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
       }
       .produce-grid {
         grid-template-columns: 1fr;
+      }
+      .comment-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
       }
     }
   </style>
@@ -611,7 +557,7 @@
   <header>
     <div class="header-container">
       <a href="#" class="logo">
-        <span style="color: var(--accent);">🥦</span> あおぞら青果直売所
+        <span style="color: var(--accent); font-size: 1.7rem;">🥦</span> あおぞら青果直売所
       </a>
     </div>
   </header>
@@ -624,8 +570,8 @@
 
   <section class="produce-section">
     <h2 class="section-title">本日のお野菜ラインナップ</h2>
-    <p style="text-align: center; color: var(--text-muted); margin-top: -1.5rem; margin-bottom: 2rem; font-size: 0.9rem;">
-      👇 お野菜をクリックすると詳細確認＆カゴに入れられます！
+    <p style="text-align: center; color: var(--text-muted); margin-top: -1.8rem; margin-bottom: 2.5rem; font-size: 0.95rem;">
+      👇 お野菜をタップ・クリックすると、美味しい食べ方の秘訣をご覧いただけます！
     </p>
 
     <div class="produce-grid">
@@ -633,13 +579,11 @@
       <div class="produce-card" 
            data-name="トマト" 
            data-image="tomato.png" 
-           data-price="350"
            data-taste="甘みと酸味のバランスが抜群で、中から果汁がジュワッと溢れ出します！" 
            data-tip="お味噌汁に入れるとトマトの出汁が出て驚くほど美味しくなります。カプレーゼもおすすめ！">
-        <span class="click-badge">詳細 🔍</span>
+        <span class="click-badge">詳しくみる ✨</span>
         <img src="tomato.png" alt="トマト" class="produce-image">
         <h3 class="produce-name">トマト</h3>
-        <p class="produce-price">¥350 <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted);">(税込/1袋)</span></p>
         <p class="produce-desc">真っ赤に熟した、甘みと酸味のベストバランス。</p>
       </div>
 
@@ -647,13 +591,11 @@
       <div class="produce-card" 
            data-name="キュウリ" 
            data-image="kyuri.png" 
-           data-price="200"
            data-taste="パリッと心地よい歯ごたえと、みずみずしい爽やかな香りが特徴です。" 
            data-tip="塩もみしてごま油と和えるだけで、無限に食べられる最高のおつまみになります！">
-        <span class="click-badge">詳細 🔍</span>
+        <span class="click-badge">詳しくみる ✨</span>
         <img src="kyuri.png" alt="キュウリ" class="produce-image">
         <h3 class="produce-name">キュウリ</h3>
-        <p class="produce-price">¥200 <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted);">(税込/3本入)</span></p>
         <p class="produce-desc">パリッと瑞々しく、心地よい歯ごたえが自慢です。</p>
       </div>
 
@@ -661,13 +603,11 @@
       <div class="produce-card" 
            data-name="ナス" 
            data-image="nasu.png" 
-           data-price="250"
            data-taste="皮は柔らかく、身は引き締まっていて、熱を通すと驚くほどトロトロになります。" 
            data-tip="多めの油でじっくり焼いて、生姜醤油やポン酢をかけて食べるのが一番の贅沢です！">
-        <span class="click-badge">詳細 🔍</span>
+        <span class="click-badge">詳しくみる ✨</span>
         <img src="nasu.png" alt="ナス" class="produce-image">
         <h3 class="produce-name">ナス</h3>
-        <p class="produce-price">¥250 <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted);">(税込/3本入)</span></p>
         <p class="produce-desc">油との相性抜群。果肉はとろけるようにジューシー。</p>
       </div>
 
@@ -675,13 +615,11 @@
       <div class="produce-card" 
            data-name="枝豆" 
            data-image="edamame.png" 
-           data-price="300"
            data-taste="噛めば噛むほど、口いっぱいに豊かな甘みと香ばしさが広がります。" 
            data-tip="茹でる前に塩でしっかりもみ洗いし、少し固めに茹でるのが美味しく仕上げるコツです！">
-        <span class="click-badge">詳細 🔍</span>
+        <span class="click-badge">詳しくみる ✨</span>
         <img src="edamame.png" alt="枝豆" class="produce-image">
         <h3 class="produce-name">枝豆</h3>
-        <p class="produce-price">¥300 <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted);">(税込/1袋)</span></p>
         <p class="produce-desc">香りとコクが強く、ビールのお供にも最高の一品。</p>
       </div>
 
@@ -689,13 +627,11 @@
       <div class="produce-card" 
            data-name="ピーマン" 
            data-image="pi-mann.png" 
-           data-price="180"
            data-taste="えぐみが非常に少なく肉厚。シャキシャキした肉質で、甘みが際立ちます。" 
            data-tip="丸ごとトースターでじっくり焼き、かつお節と醤油を垂らして食べるのが農家直伝の味です！">
-        <span class="click-badge">詳細 🔍</span>
+        <span class="click-badge">詳しくみる ✨</span>
         <img src="pi-mann.png" alt="ピーマン" class="produce-image">
         <h3 class="produce-name">ピーマン</h3>
-        <p class="produce-price">¥180 <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted);">(税込/1袋)</span></p>
         <p class="produce-desc">肉厚で苦味が少なく、お子様でも食べやすい味わい。</p>
       </div>
     </div>
@@ -707,7 +643,6 @@
       <button class="close-btn" id="closeModal">&times;</button>
       <img src="" alt="" class="modal-image" id="modalImage">
       <h2 class="modal-title" id="modalTitle">野菜の名前</h2>
-      <div class="modal-price" id="modalPrice">¥0</div>
       
       <div class="modal-section">
         <div class="modal-section-title">😋 どんな味？</div>
@@ -718,82 +653,45 @@
         <div class="modal-section-title">👩‍🍳 おすすめの食べ方</div>
         <div class="modal-section-text" id="modalTip">美味しい調理のコツやレシピが入ります。</div>
       </div>
-
-      <!-- 🛒 カート追加エリア -->
-      <div class="purchase-area">
-        <div class="quantity-selector">
-          <label for="quantity">注文数:</label>
-          <select id="quantity" class="quantity-select">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-        </div>
-        <button id="addToCartBtn" class="btn-add-cart">🛒 カゴに入れる</button>
-      </div>
     </div>
   </div>
 
-  <!-- 🛒 買い物かごフローティングボタン -->
-  <div class="cart-badge-container">
-    <button class="btn-cart-toggle" id="cartToggleBtn">
-      🛒
-      <span class="cart-count" id="cartCount">0</span>
-    </button>
-  </div>
-
-  <!-- 🛒 ショッピングカートモーダル -->
-  <div class="cart-modal" id="cartModal">
-    <div class="cart-modal-content">
-      <button class="close-btn" id="closeCartModal" style="position: absolute; top: 1rem; right: 1rem;">&times;</button>
-      <h2 style="color: var(--primary);">🛒 お買い物カゴ</h2>
-      
-      <!-- カートに入った商品リスト -->
-      <div class="cart-items-list" id="cartItemsList">
-        <p style="text-align: center; color: var(--text-muted);">カゴは空っぽです。</p>
-      </div>
-
-      <!-- 合計金額 -->
-      <div class="cart-total">
-        <span>合計金額</span>
-        <span id="cartTotalVal">¥0</span>
-      </div>
-
-      <!-- ご注文者様情報入力フォーム -->
-      <div style="text-align: left; display: flex; flex-direction: column; gap: 0.8rem;">
-        <div>
-          <label style="font-weight: 700; font-size: 0.9rem; color: var(--primary);">お名前 (必須)</label>
-          <input type="text" id="orderName" class="form-control" placeholder="お名前を入力してください" required autocomplete="off">
-        </div>
-        <div>
-          <label style="font-weight: 700; font-size: 0.9rem; color: var(--primary);">ご連絡先電話番号 (必須)</label>
-          <input type="tel" id="orderPhone" class="form-control" placeholder="090-0000-0000" required autocomplete="off">
-        </div>
-      </div>
-
-      <button id="checkoutBtn" class="btn-submit" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">注文を確定する</button>
-    </div>
-  </div>
-
+  <!-- レビュー掲示板セクション -->
   <section class="comments-section">
-    <h2 class="section-title">お客様の声・掲示板</h2>
+    <h2 class="section-title">皆様からのご感想・評価</h2>
     
     <div class="comment-form-container">
       <form id="commentForm">
+        <!-- ⭐ 5つ星評価フォーム -->
+        <div class="form-group">
+          <label>直売所の評価</label>
+          <div class="star-rating">
+            <input type="radio" id="star5" name="rating" value="5" required>
+            <label for="star5" title="最高！">★</label>
+            <input type="radio" id="star4" name="rating" value="4">
+            <label for="star4" title="満足">★</label>
+            <input type="radio" id="star3" name="rating" value="3">
+            <label for="star3" title="普通">★</label>
+            <input type="radio" id="star2" name="rating" value="2">
+            <label for="star2" title="少し不満">★</label>
+            <input type="radio" id="star1" name="rating" value="1">
+            <label for="star1" title="不満">★</label>
+          </div>
+        </div>
+
         <div class="form-group">
           <label for="username">お名前</label>
           <input type="text" id="username" class="form-control" placeholder="ニックネーム" required autocomplete="off">
         </div>
         <div class="form-group">
           <label for="commentText">コメント</label>
-          <textarea id="commentText" class="form-control" placeholder="野菜を食べた感想などをお聞かせください！" required></textarea>
+          <textarea id="commentText" class="form-control" placeholder="お野菜を食べた感想など、温かいコメントをお待ちしております！" required></textarea>
         </div>
-        <button type="submit" id="submitBtn" class="btn-submit">コメントを投稿する</button>
+        <button type="submit" id="submitBtn" class="btn-submit">評価を投稿する ✨</button>
       </form>
     </div>
 
+    <!-- コメント（評価）一覧表示 -->
     <div class="comments-list" id="commentsList">
       <div class="empty-state">コメントを読み込んでいます...</div>
     </div>
@@ -801,53 +699,33 @@
 
   <footer>
     <p>&copy; 2026 あおぞら青果直売所. All Rights Reserved.</p>
-    <p style="font-size: 0.8rem; opacity: 0.7;">心を込めて作った不揃いのお野菜たちをお届けします。</p>
+    <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 0.5rem;">心を込めて作った不揃いのお野菜たちをお届けします。</p>
   </footer>
 
-  <!-- カートとお買い物機能のJavaScript -->
+  <!-- ポップアップ用の基本JavaScript -->
   <script>
-    let cart = []; // カートの中身を保存する配列
-
     const cards = document.querySelectorAll('.produce-card');
     const modal = document.getElementById('produceModal');
     const closeModal = document.getElementById('closeModal');
     
     const modalImage = document.getElementById('modalImage');
     const modalTitle = document.getElementById('modalTitle');
-    const modalPrice = document.getElementById('modalPrice');
     const modalTaste = document.getElementById('modalTaste');
     const modalTip = document.getElementById('modalTip');
-    const quantitySelect = document.getElementById('quantity');
-    const addToCartBtn = document.getElementById('addToCartBtn');
-
-    // カート画面用の要素
-    const cartToggleBtn = document.getElementById('cartToggleBtn');
-    const cartModal = document.getElementById('cartModal');
-    const closeCartModal = document.getElementById('closeCartModal');
-    const cartItemsList = document.getElementById('cartItemsList');
-    const cartTotalVal = document.getElementById('cartTotalVal');
-    const cartCount = document.getElementById('cartCount');
-
-    let currentSelectedProduct = null;
 
     // カードをクリックして詳細ポップアップを開く
     cards.forEach(card => {
       card.addEventListener('click', () => {
         const name = card.getAttribute('data-name');
         const img = card.getAttribute('data-image');
-        const price = parseInt(card.getAttribute('data-price'));
         const taste = card.getAttribute('data-taste');
         const tip = card.getAttribute('data-tip');
-
-        currentSelectedProduct = { name, img, price };
 
         modalTitle.textContent = name;
         modalImage.src = img;
         modalImage.alt = name;
-        modalPrice.textContent = `¥${price} (税込)`;
         modalTaste.textContent = taste;
         modalTip.textContent = tip;
-        quantitySelect.value = "1"; // 個数を1にリセット
 
         modal.classList.add('show');
       });
@@ -855,74 +733,9 @@
 
     closeModal.addEventListener('click', () => { modal.classList.remove('show'); });
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
-
-    // 🛒 カゴに入れるボタンを押したとき
-    addToCartBtn.addEventListener('click', () => {
-      const qty = parseInt(quantitySelect.value);
-      
-      // カートに同じ商品が既にあれば個数を追加
-      const existingItem = cart.find(item => item.name === currentSelectedProduct.name);
-      if (existingItem) {
-        existingItem.quantity += qty;
-      } else {
-        cart.push({
-          name: currentSelectedProduct.name,
-          price: currentSelectedProduct.price,
-          quantity: qty
-        });
-      }
-
-      updateCartUI();
-      modal.classList.remove('show');
-      alert(`${currentSelectedProduct.name}を ${qty} 個カゴに追加しました！`);
-    });
-
-    // カートの見た目を更新する関数
-    function updateCartUI() {
-      // バッジの数字を更新
-      const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
-      cartCount.textContent = totalQty;
-
-      // カートリストの描画
-      cartItemsList.innerHTML = "";
-      let totalPrice = 0;
-
-      if (cart.length === 0) {
-        cartItemsList.innerHTML = `<p style="text-align: center; color: var(--text-muted);">カゴは空っぽです。</p>`;
-      } else {
-        cart.forEach((item, index) => {
-          const itemTotal = item.price * item.quantity;
-          totalPrice += itemTotal;
-
-          const itemDiv = document.createElement('div');
-          itemDiv.className = "cart-item";
-          itemDiv.innerHTML = `
-            <div>
-              <span class="cart-item-info">${item.name} × ${item.quantity}</span>
-              <button class="btn-delete-item" onclick="deleteCartItem(${index})">削除</button>
-            </div>
-            <span class="cart-item-price">¥${itemTotal}</span>
-          `;
-          cartItemsList.appendChild(itemDiv);
-        });
-      }
-
-      cartTotalVal.textContent = `¥${totalPrice}`;
-    }
-
-    // カートから商品を削除する関数
-    window.deleteCartItem = function(index) {
-      cart.splice(index, 1);
-      updateCartUI();
-    };
-
-    // カート画面の開閉
-    cartToggleBtn.addEventListener('click', () => { cartModal.classList.add('show'); });
-    closeCartModal.addEventListener('click', () => { cartModal.classList.remove('show'); });
-    cartModal.addEventListener('click', (e) => { if (e.target === cartModal) cartModal.classList.remove('show'); });
   </script>
 
-  <!-- Firebase JavaScript (注文の送信とコメントの管理) -->
+  <!-- Firebase JavaScript (評価・コメントの管理) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { 
@@ -952,63 +765,21 @@
     const commentsList = document.getElementById('commentsList');
     const submitBtn = document.getElementById('submitBtn');
 
-    // 注文送信処理
-    const checkoutBtn = document.getElementById('checkoutBtn');
-    const orderNameInput = document.getElementById('orderName');
-    const orderPhoneInput = document.getElementById('orderPhone');
-
-    checkoutBtn.addEventListener('click', async () => {
-      if (cart.length === 0) {
-        alert("カートに商品が入っていません。");
-        return;
+    // 星の数値を変換するヘルパー
+    function getStarsHtml(rating) {
+      const num = parseInt(rating) || 5;
+      let stars = "";
+      for (let i = 0; i < num; i++) {
+        stars += "★";
       }
+      return `<span class="comment-stars">${stars}</span>`;
+    }
 
-      const name = orderNameInput.value.trim();
-      const phone = orderPhoneInput.value.trim();
-
-      if (!name || !phone) {
-        alert("お名前とご連絡先電話番号を入力してください。");
-        return;
-      }
-
-      checkoutBtn.disabled = true;
-      checkoutBtn.textContent = "注文を送信中...";
-
-      try {
-        // カート商品の合計金額を計算
-        const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-        // Firestoreの "orders" コレクションに保存
-        await addDoc(collection(db, "orders"), {
-          customerName: name,
-          customerPhone: phone,
-          items: cart,
-          totalAmount: totalPrice,
-          orderedAt: serverTimestamp()
-        });
-
-        alert("🎉 ご注文ありがとうございました！お野菜をお取り置きしておきます！");
-        
-        // カートを空にしてUIをリセット
-        cart = [];
-        updateCartUI();
-        orderNameInput.value = "";
-        orderPhoneInput.value = "";
-        document.getElementById('cartModal').classList.remove('show');
-
-      } catch (error) {
-        console.error("注文の保存に失敗しました: ", error);
-        alert("エラーが発生しました。もう一度お試しください。");
-      } finally {
-        checkoutBtn.disabled = false;
-        checkoutBtn.textContent = "注文を確定する";
-      }
-    });
-
-    // --- コメント機能 ---
+    // --- コメント＆評価の読み込み ---
     async function loadComments() {
       try {
         const commentsRef = collection(db, "comments");
+        // 最新のものが一番上にくるようにソート
         const q = query(commentsRef, orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
 
@@ -1027,6 +798,9 @@
           const header = document.createElement('div');
           header.className = 'comment-header';
 
+          const meta = document.createElement('div');
+          meta.className = 'comment-meta';
+
           const authorSpan = document.createElement('span');
           authorSpan.className = 'comment-author';
           authorSpan.textContent = data.name || "名無しさん";
@@ -1043,12 +817,20 @@
             dateSpan.textContent = "さっき";
           }
 
+          meta.appendChild(authorSpan);
+          meta.appendChild(dateSpan);
+
+          // 星マークの表示
+          const starsContainer = document.createElement('div');
+          starsContainer.innerHTML = getStarsHtml(data.rating);
+
+          header.appendChild(meta);
+          header.appendChild(starsContainer);
+
           const body = document.createElement('div');
           body.className = 'comment-body';
           body.textContent = data.text || "";
 
-          header.appendChild(authorSpan);
-          header.appendChild(dateSpan);
           card.appendChild(header);
           card.appendChild(body);
           commentsList.appendChild(card);
@@ -1060,13 +842,17 @@
       }
     }
 
+    // --- コメント＆評価の投稿処理 ---
     commentForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
       const usernameInput = document.getElementById('username');
       const commentTextInput = document.getElementById('commentText');
+      const ratingActive = document.querySelector('input[name="rating"]:checked');
 
       const name = usernameInput.value.trim();
       const text = commentTextInput.value.trim();
+      const rating = ratingActive ? parseInt(ratingActive.value) : 5;
 
       if (!name || !text) return;
 
@@ -1074,20 +860,28 @@
       submitBtn.textContent = "送信中...";
 
       try {
+        // Firebase(Firestore)に評価とコメントを保存
         await addDoc(collection(db, "comments"), {
           name: name,
           text: text,
+          rating: rating,
           createdAt: serverTimestamp()
         });
+
+        // フォームのリセット
         usernameInput.value = "";
         commentTextInput.value = "";
+        if (ratingActive) ratingActive.checked = false;
+
+        // 再読み込み
         await loadComments();
+        alert("🎉 ご投稿ありがとうございました！励みになります！");
       } catch (error) {
         console.error("Error adding comment: ", error);
         alert("送信に失敗しました。");
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = "コメントを投稿する";
+        submitBtn.textContent = "評価を投稿する ✨";
       }
     });
 
