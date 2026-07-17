@@ -341,31 +341,31 @@
     <div class="produce-grid">
       <!-- 1. トマト -->
       <div class="produce-card">
-        <img src="tomato.jpg" alt="トマト" class="produce-image">
+        <img src="tomato.png" alt="トマトのイラスト" class="produce-image">
         <h3 class="produce-name">トマト</h3>
         <p class="produce-desc">真っ赤に熟した、甘みと酸味のベストバランス。</p>
       </div>
       <!-- 2. キュウリ -->
       <div class="produce-card">
-        <img src="https://1.bp.blogspot.com/-_Lg0XF8_r2g/V469C9RshzI/AAAAAAAA8R0/MInW_I0n_Iob5-Yt-L7V-2p77j3Fj89PACLcB/s400/vegetable_kyuri.png" alt="キュウリのイラスト" class="produce-image">
+        <img src="kyuri.png" alt="キュウリのイラスト" class="produce-image">
         <h3 class="produce-name">キュウリ</h3>
         <p class="produce-desc">パリッと瑞々しく、心地よい歯ごたえが自慢です。</p>
       </div>
       <!-- 3. ナス -->
       <div class="produce-card">
-        <img src="https://4.bp.blogspot.com/-e1r2K4bI03Y/V469EwM36WI/AAAAAAAA8Sg/XNq9nZ8aI08A7r8f9oTscL69r7_094vdwCLcB/s400/vegetable_nasu.png" alt="ナスのイラスト" class="produce-image">
+        <img src="nasu.png" alt="ナスのイラスト" class="produce-image">
         <h3 class="produce-name">ナス</h3>
         <p class="produce-desc">油との相性抜群。果肉はとろけるようにジューシー。</p>
       </div>
       <!-- 4. 枝豆 -->
       <div class="produce-card">
-        <img src="https://2.bp.blogspot.com/-Rz8jN_q9D5k/W6vO28WstOI/AAAAAAABO9I/5fMbeKOfwFAn0W4bVOfuUf9zOfL-oA00ACLcBGAs/s400/food_edamame_saral.png" alt="枝豆のイラスト" class="produce-image">
+        <img src="edamame.png" alt="枝豆のイラスト" class="produce-image">
         <h3 class="produce-name">枝豆</h3>
         <p class="produce-desc">香りとコクが強く、ビールのお供にも最高の一品。</p>
       </div>
-      <!-- 5. ピーマン -->
+      <!-- 5. ピーマン (画像ファイル名 pi-mann.png に合わせました！) -->
       <div class="produce-card">
-        <img src="https://2.bp.blogspot.com/-E-V_vY8V6r8/V469F54YpYI/AAAAAAAA8So/_E9hR2ZpG8QY2V2p79G_Z7F_Y2pG_Z7F_CLcB/s400/vegetable_piman.png" alt="ピーマンのイラスト" class="produce-image">
+        <img src="pi-mann.png" alt="ピーマンのイラスト" class="produce-image">
         <h3 class="produce-name">ピーマン</h3>
         <p class="produce-desc">肉厚で苦味が少なく、お子様でも食べやすい味わい。</p>
       </div>
@@ -400,7 +400,6 @@
   </footer>
 
   <script type="module">
-    // Firebase JS SDK v10 の読み込み
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { 
       getFirestore, 
@@ -412,7 +411,7 @@
       serverTimestamp 
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // === 【最重要】ここにFirebase Configを貼り付けます ===
+    // === Firebase Config ===
     const firebaseConfig = {
       apiKey: "AIzaSyCOlbcL2rR1s5Nn178VzglWZpR95BKOCJg",
       authDomain: "sanchoku-4965d.firebaseapp.com",
@@ -422,7 +421,6 @@
       appId: "1:293667769363:web:c8b7444d3fb7d7045883e6"
     };
 
-    // Firebaseの初期化
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
@@ -430,14 +428,13 @@
     const commentsList = document.getElementById('commentsList');
     const submitBtn = document.getElementById('submitBtn');
 
-    // コメント一覧を取得して表示する関数
     async function loadComments() {
       try {
         const commentsRef = collection(db, "comments");
         const q = query(commentsRef, orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
 
-        commentsList.innerHTML = ""; // 一覧をクリア
+        commentsList.innerHTML = "";
 
         if (querySnapshot.empty) {
           commentsList.innerHTML = `<div class="empty-state">まだコメントはありません。最初のコメントを書いてみませんか？</div>`;
@@ -490,7 +487,6 @@
       }
     }
 
-    // コメント送信処理
     commentForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -525,7 +521,6 @@
       }
     });
 
-    // 初期ロード
     loadComments();
   </script>
 </body>
