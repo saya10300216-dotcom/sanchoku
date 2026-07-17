@@ -126,7 +126,6 @@
       gap: 1.5rem;
     }
 
-    /* カードをクリック可能にするためのスタイル変更 */
     .produce-card {
       background: var(--card-bg);
       border: 1px solid rgba(255, 255, 255, 0.6);
@@ -138,7 +137,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      cursor: pointer; /* マウスをのせた時に指マークにする */
+      cursor: pointer;
       position: relative;
     }
 
@@ -148,7 +147,6 @@
       border-color: var(--primary-light);
     }
 
-    /* クリックを促すバッジ */
     .click-badge {
       position: absolute;
       top: 10px;
@@ -174,24 +172,32 @@
       font-size: 1.25rem;
       font-weight: 700;
       color: var(--text-main);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    /* お値段のスタイル */
+    .produce-price {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #e11d48; /* 美味しそうな赤 */
+      margin-bottom: 0.8rem;
     }
 
     .produce-desc {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
     }
 
-    /* --- ✨ 詳細表示用ポップアップ（モーダル）のスタイル --- */
+    /* --- ポップアップ（モーダル）のスタイル --- */
     .modal {
-      display: none; /* 最初は非表示 */
+      display: none;
       position: fixed;
       z-index: 1000;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(15, 23, 42, 0.6); /* 背景を暗くする */
+      background-color: rgba(15, 23, 42, 0.6);
       backdrop-filter: blur(4px);
       align-items: center;
       justify-content: center;
@@ -200,7 +206,6 @@
       transition: opacity 0.3s ease;
     }
 
-    /* モーダルが動く時のアニメーション用クラス */
     .modal.show {
       display: flex;
       opacity: 1;
@@ -217,6 +222,8 @@
       transform: scale(0.9);
       transition: transform 0.3s ease;
       text-align: center;
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .modal.show .modal-content {
@@ -243,16 +250,11 @@
       transition: var(--transition);
     }
 
-    .close-btn:hover {
-      background: #e2e8f0;
-      color: var(--text-main);
-    }
-
     .modal-image {
-      width: 140px;
-      height: 140px;
+      width: 130px;
+      height: 130px;
       object-fit: contain;
-      margin: 1rem auto 1.5rem;
+      margin: 1rem auto;
       filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
     }
 
@@ -260,29 +262,204 @@
       font-size: 1.75rem;
       font-weight: 800;
       color: var(--primary);
+    }
+
+    .modal-price {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #e11d48;
       margin-bottom: 1rem;
     }
 
     .modal-section {
       text-align: left;
       background: #f8fafc;
-      padding: 1.2rem;
+      padding: 1rem 1.2rem;
       border-radius: 12px;
-      margin-top: 1rem;
+      margin-top: 0.8rem;
       border-left: 4px solid var(--accent);
     }
 
     .modal-section-title {
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: var(--text-main);
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.2rem;
     }
 
     .modal-section-text {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
       line-height: 1.5;
+    }
+
+    /* 購入エリアのスタイル */
+    .purchase-area {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px dashed #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .quantity-selector label {
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .quantity-select {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1.5px solid #cbd5e1;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .btn-add-cart {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+      transition: var(--transition);
+    }
+
+    .btn-add-cart:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    /* --- ✨ 買い物かご（カート）フローティングボタン --- */
+    .cart-badge-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 900;
+    }
+
+    .btn-cart-toggle {
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      font-size: 1.8rem;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(30, 64, 175, 0.3);
+      position: relative;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-cart-toggle:hover {
+      transform: scale(1.1);
+      background: var(--primary-light);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #e11d48;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 20px;
+      border: 2px solid white;
+    }
+
+    /* --- ✨ カートの中身表示モーダル --- */
+    .cart-modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .cart-modal.show {
+      display: flex;
+    }
+
+    .cart-modal-content {
+      background: white;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 450px;
+      padding: 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .cart-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-height: 200px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .cart-item-info {
+      font-weight: 700;
+    }
+
+    .cart-item-price {
+      color: #e11d48;
+      font-weight: 700;
+    }
+
+    .btn-delete-item {
+      background: none;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-left: 0.5rem;
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.2rem;
+      font-weight: 800;
+      border-top: 2px solid #cbd5e1;
+      padding-top: 1rem;
     }
 
     /* --- Comments Section --- */
@@ -355,10 +532,6 @@
       box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
     }
 
-    .btn-submit:active {
-      transform: translateY(0);
-    }
-
     /* --- Comment List --- */
     .comments-list {
       display: flex;
@@ -423,11 +596,6 @@
       font-size: 0.9rem;
     }
 
-    footer p {
-      margin-bottom: 0.5rem;
-    }
-
-    /* --- Responsive --- */
     @media (max-width: 600px) {
       .hero h1 {
         font-size: 2rem;
@@ -457,19 +625,21 @@
   <section class="produce-section">
     <h2 class="section-title">本日のお野菜ラインナップ</h2>
     <p style="text-align: center; color: var(--text-muted); margin-top: -1.5rem; margin-bottom: 2rem; font-size: 0.9rem;">
-      👇 お野菜をクリックすると詳しい紹介が見られます！
+      👇 お野菜をクリックすると詳細確認＆カゴに入れられます！
     </p>
 
     <div class="produce-grid">
-      <!-- 1. トマト (data-*** 属性を追加して詳細テキストを持たせています) -->
+      <!-- 1. トマト -->
       <div class="produce-card" 
            data-name="トマト" 
            data-image="tomato.png" 
+           data-price="350"
            data-taste="甘みと酸味のバランスが抜群で、中から果汁がジュワッと溢れ出します！" 
            data-tip="お味噌汁に入れるとトマトの出汁が出て驚くほど美味しくなります。カプレーゼもおすすめ！">
         <span class="click-badge">詳細 🔍</span>
-        <img src="tomato.png" alt="トマトのイラスト" class="produce-image">
+        <img src="tomato.png" alt="トマト" class="produce-image">
         <h3 class="produce-name">トマト</h3>
+        <p class="produce-price">¥350 <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted);">(税込/1袋)</span></p>
         <p class="produce-desc">真っ赤に熟した、甘みと酸味のベストバランス。</p>
       </div>
 
@@ -477,11 +647,13 @@
       <div class="produce-card" 
            data-name="キュウリ" 
            data-image="kyuri.png" 
+           data-price="200"
            data-taste="パリッと心地よい歯ごたえと、みずみずしい爽やかな香りが特徴です。" 
            data-tip="塩もみしてごま油と和えるだけで、無限に食べられる最高のおつまみになります！">
         <span class="click-badge">詳細 🔍</span>
-        <img src="kyuri.png" alt="キュウリのイラスト" class="produce-image">
+        <img src="kyuri.png" alt="キュウリ" class="produce-image">
         <h3 class="produce-name">キュウリ</h3>
+        <p class="produce-price">¥200 <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted);">(税込/3本入)</span></p>
         <p class="produce-desc">パリッと瑞々しく、心地よい歯ごたえが自慢です。</p>
       </div>
 
@@ -489,11 +661,13 @@
       <div class="produce-card" 
            data-name="ナス" 
            data-image="nasu.png" 
+           data-price="250"
            data-taste="皮は柔らかく、身は引き締まっていて、熱を通すと驚くほどトロトロになります。" 
            data-tip="多めの油でじっくり焼いて、生姜醤油やポン酢をかけて食べるのが一番の贅沢です！">
         <span class="click-badge">詳細 🔍</span>
-        <img src="nasu.png" alt="ナスのイラスト" class="produce-image">
+        <img src="nasu.png" alt="ナス" class="produce-image">
         <h3 class="produce-name">ナス</h3>
+        <p class="produce-price">¥250 <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted);">(税込/3本入)</span></p>
         <p class="produce-desc">油との相性抜群。果肉はとろけるようにジューシー。</p>
       </div>
 
@@ -501,11 +675,13 @@
       <div class="produce-card" 
            data-name="枝豆" 
            data-image="edamame.png" 
+           data-price="300"
            data-taste="噛めば噛むほど、口いっぱいに豊かな甘みと香ばしさが広がります。" 
            data-tip="茹でる前に塩でしっかりもみ洗いし、少し固めに茹でるのが美味しく仕上げるコツです！">
         <span class="click-badge">詳細 🔍</span>
-        <img src="edamame.png" alt="枝豆のイラスト" class="produce-image">
+        <img src="edamame.png" alt="枝豆" class="produce-image">
         <h3 class="produce-name">枝豆</h3>
+        <p class="produce-price">¥300 <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted);">(税込/1袋)</span></p>
         <p class="produce-desc">香りとコクが強く、ビールのお供にも最高の一品。</p>
       </div>
 
@@ -513,22 +689,25 @@
       <div class="produce-card" 
            data-name="ピーマン" 
            data-image="pi-mann.png" 
+           data-price="180"
            data-taste="えぐみが非常に少なく肉厚。シャキシャキした肉質で、甘みが際立ちます。" 
            data-tip="丸ごとトースターでじっくり焼き、かつお節と醤油を垂らして食べるのが農家直伝の味です！">
         <span class="click-badge">詳細 🔍</span>
-        <img src="pi-mann.png" alt="ピーマンのイラスト" class="produce-image">
+        <img src="pi-mann.png" alt="ピーマン" class="produce-image">
         <h3 class="produce-name">ピーマン</h3>
+        <p class="produce-price">¥180 <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted);">(税込/1袋)</span></p>
         <p class="produce-desc">肉厚で苦味が少なく、お子様でも食べやすい味わい。</p>
       </div>
     </div>
   </section>
 
-  <!-- ✨ ポップアップ（モーダル）本体のHTML -->
+  <!-- お野菜詳細モーダル -->
   <div class="modal" id="produceModal">
     <div class="modal-content">
       <button class="close-btn" id="closeModal">&times;</button>
       <img src="" alt="" class="modal-image" id="modalImage">
       <h2 class="modal-title" id="modalTitle">野菜の名前</h2>
+      <div class="modal-price" id="modalPrice">¥0</div>
       
       <div class="modal-section">
         <div class="modal-section-title">😋 どんな味？</div>
@@ -539,6 +718,62 @@
         <div class="modal-section-title">👩‍🍳 おすすめの食べ方</div>
         <div class="modal-section-text" id="modalTip">美味しい調理のコツやレシピが入ります。</div>
       </div>
+
+      <!-- 🛒 カート追加エリア -->
+      <div class="purchase-area">
+        <div class="quantity-selector">
+          <label for="quantity">注文数:</label>
+          <select id="quantity" class="quantity-select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <button id="addToCartBtn" class="btn-add-cart">🛒 カゴに入れる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🛒 買い物かごフローティングボタン -->
+  <div class="cart-badge-container">
+    <button class="btn-cart-toggle" id="cartToggleBtn">
+      🛒
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+
+  <!-- 🛒 ショッピングカートモーダル -->
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-modal-content">
+      <button class="close-btn" id="closeCartModal" style="position: absolute; top: 1rem; right: 1rem;">&times;</button>
+      <h2 style="color: var(--primary);">🛒 お買い物カゴ</h2>
+      
+      <!-- カートに入った商品リスト -->
+      <div class="cart-items-list" id="cartItemsList">
+        <p style="text-align: center; color: var(--text-muted);">カゴは空っぽです。</p>
+      </div>
+
+      <!-- 合計金額 -->
+      <div class="cart-total">
+        <span>合計金額</span>
+        <span id="cartTotalVal">¥0</span>
+      </div>
+
+      <!-- ご注文者様情報入力フォーム -->
+      <div style="text-align: left; display: flex; flex-direction: column; gap: 0.8rem;">
+        <div>
+          <label style="font-weight: 700; font-size: 0.9rem; color: var(--primary);">お名前 (必須)</label>
+          <input type="text" id="orderName" class="form-control" placeholder="お名前を入力してください" required autocomplete="off">
+        </div>
+        <div>
+          <label style="font-weight: 700; font-size: 0.9rem; color: var(--primary);">ご連絡先電話番号 (必須)</label>
+          <input type="tel" id="orderPhone" class="form-control" placeholder="090-0000-0000" required autocomplete="off">
+        </div>
+      </div>
+
+      <button id="checkoutBtn" class="btn-submit" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">注文を確定する</button>
     </div>
   </div>
 
@@ -569,52 +804,125 @@
     <p style="font-size: 0.8rem; opacity: 0.7;">心を込めて作った不揃いのお野菜たちをお届けします。</p>
   </footer>
 
-  <!-- 詳細表示ポップアップ用のJavaScript -->
+  <!-- カートとお買い物機能のJavaScript -->
   <script>
+    let cart = []; // カートの中身を保存する配列
+
     const cards = document.querySelectorAll('.produce-card');
     const modal = document.getElementById('produceModal');
     const closeModal = document.getElementById('closeModal');
     
     const modalImage = document.getElementById('modalImage');
     const modalTitle = document.getElementById('modalTitle');
+    const modalPrice = document.getElementById('modalPrice');
     const modalTaste = document.getElementById('modalTaste');
     const modalTip = document.getElementById('modalTip');
+    const quantitySelect = document.getElementById('quantity');
+    const addToCartBtn = document.getElementById('addToCartBtn');
 
-    // カードをクリックした時の処理
+    // カート画面用の要素
+    const cartToggleBtn = document.getElementById('cartToggleBtn');
+    const cartModal = document.getElementById('cartModal');
+    const closeCartModal = document.getElementById('closeCartModal');
+    const cartItemsList = document.getElementById('cartItemsList');
+    const cartTotalVal = document.getElementById('cartTotalVal');
+    const cartCount = document.getElementById('cartCount');
+
+    let currentSelectedProduct = null;
+
+    // カードをクリックして詳細ポップアップを開く
     cards.forEach(card => {
       card.addEventListener('click', () => {
-        // カードに設定したデータを取得
         const name = card.getAttribute('data-name');
         const img = card.getAttribute('data-image');
+        const price = parseInt(card.getAttribute('data-price'));
         const taste = card.getAttribute('data-taste');
         const tip = card.getAttribute('data-tip');
 
-        // モーダルにデータをセット
+        currentSelectedProduct = { name, img, price };
+
         modalTitle.textContent = name;
         modalImage.src = img;
         modalImage.alt = name;
+        modalPrice.textContent = `¥${price} (税込)`;
         modalTaste.textContent = taste;
         modalTip.textContent = tip;
+        quantitySelect.value = "1"; // 個数を1にリセット
 
-        // モーダルを表示
         modal.classList.add('show');
       });
     });
 
-    // 閉じるボタンを押した時の処理
-    closeModal.addEventListener('click', () => {
+    closeModal.addEventListener('click', () => { modal.classList.remove('show'); });
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
+
+    // 🛒 カゴに入れるボタンを押したとき
+    addToCartBtn.addEventListener('click', () => {
+      const qty = parseInt(quantitySelect.value);
+      
+      // カートに同じ商品が既にあれば個数を追加
+      const existingItem = cart.find(item => item.name === currentSelectedProduct.name);
+      if (existingItem) {
+        existingItem.quantity += qty;
+      } else {
+        cart.push({
+          name: currentSelectedProduct.name,
+          price: currentSelectedProduct.price,
+          quantity: qty
+        });
+      }
+
+      updateCartUI();
       modal.classList.remove('show');
+      alert(`${currentSelectedProduct.name}を ${qty} 個カゴに追加しました！`);
     });
 
-    // 背景の暗い部分をクリックした時も閉じる
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.remove('show');
+    // カートの見た目を更新する関数
+    function updateCartUI() {
+      // バッジの数字を更新
+      const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartCount.textContent = totalQty;
+
+      // カートリストの描画
+      cartItemsList.innerHTML = "";
+      let totalPrice = 0;
+
+      if (cart.length === 0) {
+        cartItemsList.innerHTML = `<p style="text-align: center; color: var(--text-muted);">カゴは空っぽです。</p>`;
+      } else {
+        cart.forEach((item, index) => {
+          const itemTotal = item.price * item.quantity;
+          totalPrice += itemTotal;
+
+          const itemDiv = document.createElement('div');
+          itemDiv.className = "cart-item";
+          itemDiv.innerHTML = `
+            <div>
+              <span class="cart-item-info">${item.name} × ${item.quantity}</span>
+              <button class="btn-delete-item" onclick="deleteCartItem(${index})">削除</button>
+            </div>
+            <span class="cart-item-price">¥${itemTotal}</span>
+          `;
+          cartItemsList.appendChild(itemDiv);
+        });
       }
-    });
+
+      cartTotalVal.textContent = `¥${totalPrice}`;
+    }
+
+    // カートから商品を削除する関数
+    window.deleteCartItem = function(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    };
+
+    // カート画面の開閉
+    cartToggleBtn.addEventListener('click', () => { cartModal.classList.add('show'); });
+    closeCartModal.addEventListener('click', () => { cartModal.classList.remove('show'); });
+    cartModal.addEventListener('click', (e) => { if (e.target === cartModal) cartModal.classList.remove('show'); });
   </script>
 
-  <!-- Firebase JavaScript -->
+  <!-- Firebase JavaScript (注文の送信とコメントの管理) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { 
@@ -644,6 +952,60 @@
     const commentsList = document.getElementById('commentsList');
     const submitBtn = document.getElementById('submitBtn');
 
+    // 注文送信処理
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const orderNameInput = document.getElementById('orderName');
+    const orderPhoneInput = document.getElementById('orderPhone');
+
+    checkoutBtn.addEventListener('click', async () => {
+      if (cart.length === 0) {
+        alert("カートに商品が入っていません。");
+        return;
+      }
+
+      const name = orderNameInput.value.trim();
+      const phone = orderPhoneInput.value.trim();
+
+      if (!name || !phone) {
+        alert("お名前とご連絡先電話番号を入力してください。");
+        return;
+      }
+
+      checkoutBtn.disabled = true;
+      checkoutBtn.textContent = "注文を送信中...";
+
+      try {
+        // カート商品の合計金額を計算
+        const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+        // Firestoreの "orders" コレクションに保存
+        await addDoc(collection(db, "orders"), {
+          customerName: name,
+          customerPhone: phone,
+          items: cart,
+          totalAmount: totalPrice,
+          orderedAt: serverTimestamp()
+        });
+
+        alert("🎉 ご注文ありがとうございました！お野菜をお取り置きしておきます！");
+        
+        // カートを空にしてUIをリセット
+        cart = [];
+        updateCartUI();
+        orderNameInput.value = "";
+        orderPhoneInput.value = "";
+        document.getElementById('cartModal').classList.remove('show');
+
+      } catch (error) {
+        console.error("注文の保存に失敗しました: ", error);
+        alert("エラーが発生しました。もう一度お試しください。");
+      } finally {
+        checkoutBtn.disabled = false;
+        checkoutBtn.textContent = "注文を確定する";
+      }
+    });
+
+    // --- コメント機能 ---
     async function loadComments() {
       try {
         const commentsRef = collection(db, "comments");
@@ -659,7 +1021,6 @@
 
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          
           const card = document.createElement('div');
           card.className = 'comment-card';
 
@@ -676,11 +1037,7 @@
           if (data.createdAt && typeof data.createdAt.toDate === 'function') {
             const date = data.createdAt.toDate();
             dateSpan.textContent = date.toLocaleString('ja-JP', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit'
+              year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
             });
           } else {
             dateSpan.textContent = "さっき";
@@ -705,7 +1062,6 @@
 
     commentForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-
       const usernameInput = document.getElementById('username');
       const commentTextInput = document.getElementById('commentText');
 
@@ -723,10 +1079,8 @@
           text: text,
           createdAt: serverTimestamp()
         });
-
         usernameInput.value = "";
         commentTextInput.value = "";
-
         await loadComments();
       } catch (error) {
         console.error("Error adding comment: ", error);
