@@ -126,6 +126,7 @@
       gap: 1.5rem;
     }
 
+    /* カードをクリック可能にするためのスタイル変更 */
     .produce-card {
       background: var(--card-bg);
       border: 1px solid rgba(255, 255, 255, 0.6);
@@ -137,6 +138,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      cursor: pointer; /* マウスをのせた時に指マークにする */
+      position: relative;
     }
 
     .produce-card:hover {
@@ -145,13 +148,25 @@
       border-color: var(--primary-light);
     }
 
-    /* --- 新しいお野菜画像のスタイル（イラスト用） --- */
+    /* クリックを促すバッジ */
+    .click-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 0.7rem;
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      opacity: 0.8;
+    }
+
     .produce-image {
-      width: 110px;         /* イラストのサイズ */
+      width: 110px;
       height: 110px;
-      object-fit: contain;  /* イラスト全体を枠内に収める */
+      object-fit: contain;
       margin-bottom: 1.2rem;
-      /* イラストを少し浮かせる影 */
       filter: drop-shadow(0 6px 8px rgba(0,0,0,0.12));
     }
 
@@ -165,6 +180,109 @@
     .produce-desc {
       font-size: 0.9rem;
       color: var(--text-muted);
+    }
+
+    /* --- ✨ 詳細表示用ポップアップ（モーダル）のスタイル --- */
+    .modal {
+      display: none; /* 最初は非表示 */
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(15, 23, 42, 0.6); /* 背景を暗くする */
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    /* モーダルが動く時のアニメーション用クラス */
+    .modal.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 500px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+      text-align: center;
+    }
+
+    .modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--text-muted);
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #f1f5f9;
+      transition: var(--transition);
+    }
+
+    .close-btn:hover {
+      background: #e2e8f0;
+      color: var(--text-main);
+    }
+
+    .modal-image {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      margin: 1rem auto 1.5rem;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
+    }
+
+    .modal-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .modal-section {
+      text-align: left;
+      background: #f8fafc;
+      padding: 1.2rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      border-left: 4px solid var(--accent);
+    }
+
+    .modal-section-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      margin-bottom: 0.4rem;
+    }
+
+    .modal-section-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
     }
 
     /* --- Comments Section --- */
@@ -338,39 +456,91 @@
 
   <section class="produce-section">
     <h2 class="section-title">本日のお野菜ラインナップ</h2>
+    <p style="text-align: center; color: var(--text-muted); margin-top: -1.5rem; margin-bottom: 2rem; font-size: 0.9rem;">
+      👇 お野菜をクリックすると詳しい紹介が見られます！
+    </p>
+
     <div class="produce-grid">
-      <!-- 1. トマト -->
-      <div class="produce-card">
+      <!-- 1. トマト (data-*** 属性を追加して詳細テキストを持たせています) -->
+      <div class="produce-card" 
+           data-name="トマト" 
+           data-image="tomato.png" 
+           data-taste="甘みと酸味のバランスが抜群で、中から果汁がジュワッと溢れ出します！" 
+           data-tip="お味噌汁に入れるとトマトの出汁が出て驚くほど美味しくなります。カプレーゼもおすすめ！">
+        <span class="click-badge">詳細 🔍</span>
         <img src="tomato.png" alt="トマトのイラスト" class="produce-image">
         <h3 class="produce-name">トマト</h3>
         <p class="produce-desc">真っ赤に熟した、甘みと酸味のベストバランス。</p>
       </div>
+
       <!-- 2. キュウリ -->
-      <div class="produce-card">
+      <div class="produce-card" 
+           data-name="キュウリ" 
+           data-image="kyuri.png" 
+           data-taste="パリッと心地よい歯ごたえと、みずみずしい爽やかな香りが特徴です。" 
+           data-tip="塩もみしてごま油と和えるだけで、無限に食べられる最高のおつまみになります！">
+        <span class="click-badge">詳細 🔍</span>
         <img src="kyuri.png" alt="キュウリのイラスト" class="produce-image">
         <h3 class="produce-name">キュウリ</h3>
         <p class="produce-desc">パリッと瑞々しく、心地よい歯ごたえが自慢です。</p>
       </div>
+
       <!-- 3. ナス -->
-      <div class="produce-card">
+      <div class="produce-card" 
+           data-name="ナス" 
+           data-image="nasu.png" 
+           data-taste="皮は柔らかく、身は引き締まっていて、熱を通すと驚くほどトロトロになります。" 
+           data-tip="多めの油でじっくり焼いて、生姜醤油やポン酢をかけて食べるのが一番の贅沢です！">
+        <span class="click-badge">詳細 🔍</span>
         <img src="nasu.png" alt="ナスのイラスト" class="produce-image">
         <h3 class="produce-name">ナス</h3>
         <p class="produce-desc">油との相性抜群。果肉はとろけるようにジューシー。</p>
       </div>
+
       <!-- 4. 枝豆 -->
-      <div class="produce-card">
+      <div class="produce-card" 
+           data-name="枝豆" 
+           data-image="edamame.png" 
+           data-taste="噛めば噛むほど、口いっぱいに豊かな甘みと香ばしさが広がります。" 
+           data-tip="茹でる前に塩でしっかりもみ洗いし、少し固めに茹でるのが美味しく仕上げるコツです！">
+        <span class="click-badge">詳細 🔍</span>
         <img src="edamame.png" alt="枝豆のイラスト" class="produce-image">
         <h3 class="produce-name">枝豆</h3>
         <p class="produce-desc">香りとコクが強く、ビールのお供にも最高の一品。</p>
       </div>
-      <!-- 5. ピーマン (画像ファイル名 pi-mann.png に合わせました！) -->
-      <div class="produce-card">
+
+      <!-- 5. ピーマン -->
+      <div class="produce-card" 
+           data-name="ピーマン" 
+           data-image="pi-mann.png" 
+           data-taste="えぐみが非常に少なく肉厚。シャキシャキした肉質で、甘みが際立ちます。" 
+           data-tip="丸ごとトースターでじっくり焼き、かつお節と醤油を垂らして食べるのが農家直伝の味です！">
+        <span class="click-badge">詳細 🔍</span>
         <img src="pi-mann.png" alt="ピーマンのイラスト" class="produce-image">
         <h3 class="produce-name">ピーマン</h3>
         <p class="produce-desc">肉厚で苦味が少なく、お子様でも食べやすい味わい。</p>
       </div>
     </div>
   </section>
+
+  <!-- ✨ ポップアップ（モーダル）本体のHTML -->
+  <div class="modal" id="produceModal">
+    <div class="modal-content">
+      <button class="close-btn" id="closeModal">&times;</button>
+      <img src="" alt="" class="modal-image" id="modalImage">
+      <h2 class="modal-title" id="modalTitle">野菜の名前</h2>
+      
+      <div class="modal-section">
+        <div class="modal-section-title">😋 どんな味？</div>
+        <div class="modal-section-text" id="modalTaste">味わいの特徴が入ります。</div>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-title">👩‍🍳 おすすめの食べ方</div>
+        <div class="modal-section-text" id="modalTip">美味しい調理のコツやレシピが入ります。</div>
+      </div>
+    </div>
+  </div>
 
   <section class="comments-section">
     <h2 class="section-title">お客様の声・掲示板</h2>
@@ -399,6 +569,52 @@
     <p style="font-size: 0.8rem; opacity: 0.7;">心を込めて作った不揃いのお野菜たちをお届けします。</p>
   </footer>
 
+  <!-- 詳細表示ポップアップ用のJavaScript -->
+  <script>
+    const cards = document.querySelectorAll('.produce-card');
+    const modal = document.getElementById('produceModal');
+    const closeModal = document.getElementById('closeModal');
+    
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalTaste = document.getElementById('modalTaste');
+    const modalTip = document.getElementById('modalTip');
+
+    // カードをクリックした時の処理
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        // カードに設定したデータを取得
+        const name = card.getAttribute('data-name');
+        const img = card.getAttribute('data-image');
+        const taste = card.getAttribute('data-taste');
+        const tip = card.getAttribute('data-tip');
+
+        // モーダルにデータをセット
+        modalTitle.textContent = name;
+        modalImage.src = img;
+        modalImage.alt = name;
+        modalTaste.textContent = taste;
+        modalTip.textContent = tip;
+
+        // モーダルを表示
+        modal.classList.add('show');
+      });
+    });
+
+    // 閉じるボタンを押した時の処理
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('show');
+    });
+
+    // 背景の暗い部分をクリックした時も閉じる
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('show');
+      }
+    });
+  </script>
+
+  <!-- Firebase JavaScript -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { 
